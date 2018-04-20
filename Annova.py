@@ -4,18 +4,20 @@
 
 from sys import argv
 
-import scipy.stats
+#import scipy.stats
 
-script, filename = argv
+#script, filename = argv
 
 x_dict = {}
 
 data = []
 
-source = open(filename,'r')
+source = open('annova_input.csv','r')
 for line in source:
 	temp = line.strip()
+	print(temp)
 	temp = temp.split(',')
+	
 	
 	if temp[0] in x_dict:
 		x_dict[temp[0]].append(float(temp[1]))
@@ -25,7 +27,7 @@ for line in source:
 	data.append((temp[0],float(temp[1])))
 
 x_summary = {}
-
+print(x_dict)
 for x in x_dict:
 	count_x = len(x_dict[x])
 	sum_x = sum(x_dict[x])
@@ -33,16 +35,16 @@ for x in x_dict:
 	var_x = sum([(n-avg_x)**2 for n in x_dict[x]])/float(count_x - 1)
 	x_summary[x] = (count_x, sum_x, avg_x, var_x)
 
-print '\nSUMMARY'
-print ''.join(['=' for i in range(0,80)])
-print '%16s%16s%16s%16s%16s' % ('Group','Count','Sum','Average','Variance')
-print ''.join(['-' for i in range(0,80)])
+print ('SUMMARY')
+print (''.join(['=' for i in range(0,80)]))
+print ('%16s%16s%16s%16s%16s' % ('Group','Count','Sum','Average','Variance'))
+print (''.join(['-' for i in range(0,80)]))
 for x in sorted(x_summary):
 	output = (x,)
 	for i in range(0,4):
 		output += (x_summary[x][i],)
-	print '%16s%16d%16.4f%16.4f%16.4f' %  output
-print ''.join(['=' for i in range(0,80)])
+	print ('%16s%16d%16.4f%16.4f%16.4f' %  output)
+print (''.join(['=' for i in range(0,80)]))
 	
 mean = sum([d[1] for d in data])/len([d[1] for d in data])
 
@@ -61,14 +63,17 @@ df_wi = df_all - df_x
 ms_all = ss_all/float(df_all)
 ms_x = ss_x/float(df_x)
 ms_wi = ss_wi/float(df_wi)
-p_value = 1 - scipy.stats.f.cdf(ms_x/ms_wi,df_x,df_wi)
+#p_value = 1 - scipy.stats.f.cdf(ms_x/ms_wi,df_x,df_wi)
+p_value=1
 
-print '\nANOVA'
-print ''.join(['=' for i in range(0,100)])
-print '%16s%16s%16s%16s%16s%16s' % ('Source','SS','df','MS','F','p-value')
-print ''.join(['-' for i in range(0,100)])
-print '%16s%16.4f%16d%16.4f%16.4f%16.4f' % ('Between Groups', ss_x, df_x, ms_x, ms_x/ms_wi, p_value)
-print '%16s%16.4f%16d%16.4f' % ('Within Groups', ss_wi, df_wi, ms_wi)
-print ''
-print '%16s%16.4f%16d' % ('Total', ss_all, df_all)
-print ''.join(['=' for i in range(0,100)]), '\n'
+print ('\nANOVA')
+print (''.join(['=' for i in range(0,100)]))
+print ('%16s%16s%16s%16s%16s%16s' % ('Source','SS','df','MS','F','p-value'))
+print (''.join(['-' for i in range(0,100)])
+#print ('Between Groups', ss_x, df_x, ms_x, ms_x/ms_wi, p_value)
+#print ('%16s%16.4f%16d%16.4f%16.4f%16.4f' % ('Between Groups', ss_x, df_x, ms_x, ms_x/ms_wi, p_value))
+#print ('%16s%16.4f%16d%16.4f\' % (\'Within Groups', ss_wi, df_wi, ms_wi+')'+)
+#print ('')
+#print ('%16s%16.4f%16d' % ('Total', ss_all, df_all))
+#print (''.join(['=' for i in range(0,100)]), '\n)
+print ('End')
